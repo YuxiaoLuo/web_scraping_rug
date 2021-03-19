@@ -1,0 +1,44 @@
+---
+title: "Web Scraping"
+author: "Connor French"
+output: html_document
+---
+
+Load packages
+```{r}
+library(rvest)
+suppressMessages(library(tidyverse))
+```
+
+
+## Unstructured text
+Read in html web page.  
+```{r}
+genius_html <- read_html("https://genius.com/Buck-meek-candle-lyrics")
+```
+
+
+Get the lyrics
+```{r}
+lyrics <- html_elements(genius_html, "div.lyrics") %>% 
+  html_element("p") %>% 
+  html_text2()
+
+lyrics %>% writeLines()
+```
+
+
+## Table
+```{r}
+imdb_html <- read_html("https://www.imdb.com/chart/tvmeter/?ref_=nv_tvv_mptv")
+```
+
+```{r}
+imdb_100 <- imdb_html %>% 
+  html_element("div.lister") %>% 
+  html_table() 
+
+imdb_100
+```
+
+
